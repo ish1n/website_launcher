@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Website Launcher</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .heading-container {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="heading-container">
+                <h1>Website Launcher</h1>
+            </div>
+            <div class="button-container">
+                <a class="btn btn-primary" href="{{ url_for('add_website') }}">Add New Website</a>
+            </div>
+        </div>
+        <ul class="list-group mt-3">
+            {% for website in websites %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ website.url }}" target="_blank">
+                        <img src="{{ website.logo }}" alt="{{ website.name }} Logo" style="width: 50px; height: 50px; margin-right: 10px;">
+                    </a>
+                    <a href="{{ website.url }}" target="_blank">{{ website.name }}</a>
+                </div>
+                <div>
+                    <a href="{{ url_for('favorite_website', website_id=loop.index0) }}" class="btn btn-sm btn-{{ 'warning' if website.favorite else 'secondary' }}">
+                        {{ 'Unfavorite' if website.favorite else 'Favorite' }}
+                    </a>
+                    <a href="{{ url_for('delete_website', website_id=loop.index0) }}" class="btn btn-sm btn-danger">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
